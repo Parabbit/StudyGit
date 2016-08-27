@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yc.vote.mapper.SubjectMapper">
+
+	<sql id="findSubject">
+		select s.*,(select count(1) from voteItem where vsId=s.vsid) voteCount,
+	(select count(1) from voteOption where vsId=s.vsid) optionCount from voteSubject s
+	</sql>
+	<select id="getSubjectAll" resultType="Subject">
+		<include refid="findSubject"/>
+	</select>
+	
+	<select id="getSubjectById" parameterType="int" resultType="Subject">
+		<include refid="findSubject"/> where vsId=#{vsId}
+	</select>
+</mapper>
